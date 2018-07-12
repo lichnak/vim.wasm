@@ -34,7 +34,22 @@ const VimWasmRuntime = {
                 return '#' + code;
             }
 
-            // TODO: class VimCursor
+            // TODO: class VimCursor using DRAW_CURSOR
+
+            function WindowResize(renderer) {
+                this.renderer = renderer;
+                this.bounceTimerToken = null;
+                this.onResize = this.onResize.bind(this);
+                this.renderer.canvas.addEventListener('resize', this.onResize);
+            }
+
+            WindowResize.prototype.onResize = function(event) {
+                console.log('RESIZE EVENT:', event);
+            };
+
+            WindowResize.prototype.startBounceTimer = function(event) {
+                // TODO
+            };
 
             // TODO: IME support
             // TODO: Handle pre-edit IME state
@@ -600,8 +615,8 @@ const VimWasmRuntime = {
     },
 
     // int vimwasm_resize(int, int, int, int, int, int, int);
-    vimwasm_resize: function(width, height, min_width, min_height, base_width, base_height, direction) {
-        debug('resize:', width, height, min_width, min_height, base_width, base_height);
+    vimwasm_resize: function(width, height, rows, cols) {
+        debug('resize:', width, height, rows, cols);
     },
 
     // void vimwasm_set_font(char *);
